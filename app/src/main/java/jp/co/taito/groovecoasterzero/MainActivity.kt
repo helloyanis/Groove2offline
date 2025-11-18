@@ -12,15 +12,20 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
@@ -28,6 +33,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.*
 import androidx.core.content.edit
+import jp.co.taito.groovecoasterzero.ui.theme.Groove2SetupTheme
 
 class MainActivity : ComponentActivity() {
 
@@ -51,14 +57,14 @@ class MainActivity : ComponentActivity() {
         }
 
         setContent {
+            Groove2SetupTheme {
+
             var status by remember { mutableStateOf("Initializing...") }
             var progress by remember { mutableStateOf(0f) }
             var determinate by remember { mutableStateOf(true) }
             var obbFound by remember { mutableStateOf<Boolean?>(null) } // null = still checking
             var extractionDone by remember { mutableStateOf(false) }
-            var canDeleteOriginal by remember { mutableStateOf(false) }
             var deletionMessage by remember { mutableStateOf<String?>(null) }
-            val sharedPref = getSharedPreferences("TunePreferences", MODE_PRIVATE)
 
             LaunchedEffect(Unit) {
                 initSharedPrefs()
@@ -71,7 +77,8 @@ class MainActivity : ComponentActivity() {
 
                 if (result == null) {
                     obbFound = false
-                    status = "OBB data could not be found. Make sure the obb data is located at [Internal storage]/Android/obb/jp.co.taito.groovecoasterzero/$targetObbName"
+                    status =
+                        "OBB data could not be found. Make sure the obb data is located at [Internal storage]/Android/obb/jp.co.taito.groovecoasterzero/$targetObbName"
                 } else {
                     obbFound = true
                     status = "Found OBB at: ${result.describe()}. Starting extraction..."
@@ -101,7 +108,6 @@ class MainActivity : ComponentActivity() {
                         status = "Extraction complete: ${destDir.absolutePath}"
 
                         val deleted = result.tryDelete()
-                        canDeleteOriginal = deleted
                         deletionMessage = if (deleted) {
                             "Original OBB deleted."
                         } else {
@@ -130,7 +136,10 @@ class MainActivity : ComponentActivity() {
 
                     if (obbFound == true && !extractionDone) {
                         if (determinate) {
-                            LinearProgressIndicator(progress = {progress}, modifier = Modifier.fillMaxWidth())
+                            LinearProgressIndicator(
+                                progress = { progress },
+                                modifier = Modifier.fillMaxWidth()
+                            )
                             val percent = (progress * 100).toInt()
                             Spacer(Modifier.height(8.dp))
                             Text("Progress: $percent%")
@@ -154,7 +163,7 @@ class MainActivity : ComponentActivity() {
                     Spacer(Modifier.height(8.dp))
 
                     // secondary button: if user cancelled saving, this will attempt to install from cache file we create
-                    Button(onClick = {
+                    OutlinedButton (onClick = {
                         // fallback: copy xapk into cache and try to install directly
                         installXapkFromCache()
                     }) {
@@ -163,11 +172,13 @@ class MainActivity : ComponentActivity() {
 
                     Spacer(Modifier.height(16.dp))
 
-                    if (obbFound == false) {
-                        Text("OBB data could not be found If the data was not copied earlier, this should not be happening. You can still save/install the XAPK below.")
-                    }
+                    Text("Version 2", style = MaterialTheme.typography.labelSmall)
+
                 }
+
+
             }
+        }
         }
     }
 
