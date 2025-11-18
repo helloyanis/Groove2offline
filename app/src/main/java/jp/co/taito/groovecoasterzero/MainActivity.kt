@@ -236,28 +236,19 @@ class MainActivity : ComponentActivity() {
             .edit {
                 putString(
                     "DATA",
-                    "&lt;root&gt;&#10;    &lt;GCZ_FORCE_SEND_STAGECLEARDATA&gt;2.0.12&lt;/GCZ_FORCE_SEND_STAGECLEARDATA&gt;&#10;    &lt;GCZ_LAST_STARTPHP_CONNECT_APP_VER&gt;2.0.12&lt;/GCZ_LAST_STARTPHP_CONNECT_APP_VER&gt;&#10;    &lt;UUID&gt;bbeb37ddc2284cae84bdc04c126662d00f5e45c532cc47e89b0de5bf0fc01386&lt;/UUID&gt;&#10;&lt;/root&gt;&#10;"
+                    """
+                        <root>
+                            <GCZ_FORCE_SEND_STAGECLEARDATA>2.0.12</GCZ_FORCE_SEND_STAGECLEARDATA>
+                            <GCZ_LAST_STARTPHP_CONNECT_APP_VER>2.0.12</GCZ_LAST_STARTPHP_CONNECT_APP_VER>
+                            <UUID>bbeb37ddc2284cae84bdc04c126662d00f5e45c532cc47e89b0de5bf0fc01386</UUID>
+                        </root>
+                    """.trimIndent()
                 )
             }
-        getSharedPreferences("com.google.android.gms.appid", MODE_PRIVATE)
-            .edit {
-                putString(
-                    "|S|cre",
-                    "1763201846278"
-                )
-                putString(
-                    "|S||P|",
-                    "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA9kpzKmxruAQhsn9VMlITRb7oRzs5M3RGoJCFrj6yFTTaeSB4bLOSKpnGSelZJMo5DJVkwFDVNrk2JGubgZzM7_yYa13gprOpi1-Bju7BE_v8vKoZDBwjLAH1rSXYNai3R5YQ5Q7hsXkNWlelKoTGsJDxiNmUzVB5o8DrRSV8qg3hTTn9IIRk0eVTSOGo1_HmRfuARu_zByd0hKBOpdpwFnO5rB-_GmluN3YYmrPyK-KbPzUwHxNIT9uv-qvyRJGxzGng_BpTo0TUFtzhSfVeu7RMVs-gGv7aUtzkaJRukXyMu1jCH3yPw-susMprAhA9AKM76YA-7IXhvD_jRXeBbwIDAQAB"
-                )
-                putString(
-                    "|T|983165573106|*",
-                    "{&quot;token&quot;:&quot;cE8QjnMsw-0:APA91bGjaiK29wcWUVoF6y3roWRPUi41JcXQaHR3Y1taF7lIANzjevr-OiIBtGKLnxQ9xybNxv0tYjTlZh_KZNH1cvZjNR9xqziRTUCVbTJwh-j-fY7QJOE&quot;,&quot;appVersion&quot;:&quot;76&quot;,&quot;timestamp&quot;:1763201848412}</string>"
-                )
-                putString(
-                    "|S||K|",
-                    "MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQD2SnMqbGu4BCGyf1UyUhNFvuhHOzkzdEagkIWuPrIVNNp5IHhss5IqmcZJ6VkkyjkMlWTAUNU2uTYka5uBnMzv_JhrXeCms6mLX4GO7sET-_y8qhkMHCMsAfWtJdg1qLdHlhDlDuGxeQ1aV6UqhMawkPGI2ZTNUHmjwOtFJXyqDeFNOf0ghGTR5VNI4ajX8eZF-4BG7_MHJ3SEoE6l2nAWc7msH78aaW43dhias_Ir4ps_NTAfE0hP26_6q_JEkbHMaeD8GlOjRNQW3OFJ9V67tExWz6Aa_tpS3ORolG6RfIy7WMIffI_D6y6wymsCED0AozvpgD7sheG8P-NFd4FvAgMBAAECggEAHz0dM2XSGeKIRaQp8bqAUEnhG1vTKwgWBzqdghbYrqDoDxIDxEHYice8Y1aSJHzz1HlEcLIwAQNn7yGo9T0mr0_aI1AidPJ30EI6ZB87ZSYCjgmDKMqO2X-cIiyZKmEucgmCNhN3o_OHMozIWcbCjtWrlSCH46zP6OnIzZnuIIFnfgEu0MT4hrcrNFBwgJHb00xtcOxZpdu6KrX3xYO_d54MfhaSVJo-h5YqD2t4nAmMiWf4T8kav6CsUdNgL3I0uBnJ4sAVMZFeoCK1XjHdEZpzv42FpgPh279k_Fa0anfNPO3kZV2bZKjMS6AQz0zOCHY_BfQ6zDg-pFAWN8M7NQKBgQD8ATOfYip5swdfyYpgLltspzToJamBZJsOnVDvRTleMjbDGP2QL8kLDvSFKINd8-DFcpuaXEVzAjpwW8fLaOPEHC9JMQUcRLBfXjIsZL0__yzpX5Jxw6qByrcbiSorZPu3mCT4uy0tMYE-MllJaAk0_9aJRPlwHVIYzhJM8WLGcwKBgQD6Mg6_nizKr4Oz-qm_maOk3qgFVzj3z5-pKoU0zRh4azx7gXgvtj0QHo2BWaizpZfoGBFZCWyTRHB7rMJd_X9zYlPgsEZqjKZ3WrXW8cb6rJc8eCmKr0zV00zENxaYMvLSQDl1bmlS05MKFqz8ufXd-PARkXiKhMO_66VLT8VeFQKBgQChAeOJoZ6hwtCjUpEmgnfHI82ZxPZXxX-MBtb_CKtuk4aJgB4BUYaRmiyAJzJHhNnHTUI9jVaR9IqB3yH3xDxBwAA2MyugtAI77GMCGhsQGGkJchaOuQTniC0VWr2mnA53bq2wfWaPyWFZ67FARUgcpJjde0QjbZhWYNMwdck2IQKBgAi__2wMKBzejoiY157vzJ1TfCTTrBZemILeDdKO6bAsb-0R1hY1FWWe6-v-Krw9qlZfoRuwDLAJ0LVCkXmgB_kNE0nkYFIRoTDDZ2ChDAhwSMnAmhNTlihUP3cNRikEfyGDRX8p4V0YMShFKr-b8VFWB29V2xVdF0t6_kjn_UsRAoGBALrzTo3TWa3zN-nFVYOrokKA6lMGy3Re8RaNgzZ1AXTOkNTGS4NV1u3XMW9LQ1eYVhPKu4cEUXWsr58DsJMnczn8kF8MmLbSjgANkIvJy5fpP2JRbwUF_VK6pb0Qr9ONnRX4Kw1diqpX7iQeB6_prrK_wI0vW1lqvrl6rAYwDCjF"
-                )
-            }
+
+    }
+
+    private fun initCache() {
 
     }
 
