@@ -21,7 +21,7 @@ Use my mod to play after the shutdown on Android! Play all the 4max expansion so
 ## How to use
 
 - Have ~10gb of storage (to download the song data) on an Android device
-- Download the xapk using the link on [this post](https://furries.club/@helloyanis/115554340112777601) ([Extra link](https://www.mediafire.com/file/lslhye23fafbxej/groove2setupv3x.xapk/file))
+- Download the xapk using [this link](https://www.mediafire.com/file/lslhye23fafbxej/groove2setupv3x.xapk/file) (Can't put it on GitHub, it's too heavy)
 - Sometimes, the file will download as an `.apk.zip` file. If that's the case, rename the file to end with `.xapk` only.
 - Install the xapk using the zarchiver app but **DON'T** open it yet. After the install is finished, wait for 2 minutes because a file transfer is still in progress (but not shown on the zarchiver UI). You can check if the transfer is done by going to `Internal storage/Android/obb/jp.co.taito.groovecoasterzero` and refreshing the page by sliding down every few seconds : If the size of files are increasing, then the file transfer is not yet done.
 <details>
