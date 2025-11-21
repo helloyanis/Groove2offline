@@ -1,4 +1,4 @@
-# Groove Coaster 2 : Original Stile offline mode
+# Groove Coaster 2 : Original Style offline mode
 
 Use my mod to play after the shutdown on Android! Play all the 4max expansion songs!
 
