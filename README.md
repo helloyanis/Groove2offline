@@ -26,7 +26,7 @@ Use my mod to play after the shutdown on Android! Play all the 4max expansion so
 - Sometimes, the file will download as an `.apk.zip` file. If that's the case, rename the file to end with `.xapk` only.
 - Install the xapk using the zarchiver app but **DON'T** open it yet. After the install is finished, wait for 2 minutes because a file transfer is still in progress (but not shown on the zarchiver UI). You can check if the transfer is done by going to `Internal storage/Android/obb/jp.co.taito.groovecoasterzero` and refreshing the page by sliding down every few seconds : If the size of files are increasing, then the file transfer is not yet done.
 <details>
-  <summary><b>If the zarchiver install failed, or you get a "Failed to extract OBB" error, click here</b></summary>
+  <summary><b>If the zarchiver install failed, the OBB data is not found or does not transfer, you get a "Failed to extract OBB" error, or the setup app gives you a "Cannot find obb file" error, click here</b></summary>
   <ul>
     <li>Rename the <code>.xapk</code> extension of the file into <code>.zip</code></li>
     <li>Extract the zip file in its own folder. There should be an <code>.apk</code> file and an <code>Android</code> folder.</li>
