@@ -22,6 +22,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.LinkAnnotation
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextLinkStyles
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.withLink
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
@@ -252,6 +257,22 @@ class MainActivity : ComponentActivity() {
 
                             Spacer(Modifier.height(16.dp))
                         }
+
+                        // Link to GitHub
+                        Text(
+                            buildAnnotatedString {
+                                append("This project is absolutely free with no charges, if you paid for this, get a refund!\nThis app should be downloaded from ")
+                                withLink(
+                                    LinkAnnotation.Url(
+                                        "https://github.com/helloyanis/Groove2offline"
+                                    )
+                                ) {
+                                    append("this GitHub page")
+                                }
+                                append(". If you downloaded it from elsewhere, please uninstall this app!")
+                            }
+                            , style = MaterialTheme.typography.labelSmall
+                        )
 
                         Text("Version 4", style = MaterialTheme.typography.labelSmall)
 
