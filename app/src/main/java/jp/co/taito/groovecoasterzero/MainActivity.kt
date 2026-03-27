@@ -4,7 +4,9 @@ package jp.co.taito.groovecoasterzero
 import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -34,6 +36,7 @@ import net.lingala.zip4j.ZipFile
 import net.lingala.zip4j.model.ZipParameters
 import net.lingala.zip4j.model.enums.CompressionMethod
 import net.lingala.zip4j.model.enums.EncryptionMethod
+import androidx.core.net.toUri
 
 class MainActivity : ComponentActivity() {
 
@@ -43,20 +46,20 @@ class MainActivity : ComponentActivity() {
     private val secondaryObbName = "main.76.jp.co.taito.groovecoasterzero.obb"
     private val secondaryObbPassword = "eiprblFFv69R83J5"
 
+    private val createDocLauncher = registerForActivityResult(
+        ActivityResultContracts.CreateDocument("application/octet-stream")
+    ) { uri: Uri? ->
+        if (uri != null) {
+            lifecycleScope.launch {
+                saveApkToUriAndPromptInstall(uri)
+            }
+        } else {
+            Toast.makeText(this, "Save cancelled", Toast.LENGTH_SHORT).show()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val createDocLauncher = registerForActivityResult(
-            ActivityResultContracts.CreateDocument("application/octet-stream")
-        ) { uri: Uri? ->
-            if (uri != null) {
-                lifecycleScope.launch {
-                    saveApkToUriAndPromptInstall(uri)
-                }
-            } else {
-                Toast.makeText(this, "Save cancelled", Toast.LENGTH_SHORT).show()
-            }
-        }
 
         setContent {
             Groove2SetupTheme {
@@ -234,29 +237,45 @@ class MainActivity : ComponentActivity() {
 
                         if (!initialButtonsVisible) {
                             Button(onClick = {
-                                createDocLauncher.launch("groovecoaster.apk")
+                                startInstallProcess()
                             }) {
-                                Text("Save apk and install")
+                                Text("Install APK")
                             }
 
                             Spacer(Modifier.height(8.dp))
 
                             OutlinedButton(onClick = {
-                                installapkFromCache()
+                                createDocLauncher.launch("groovecoaster.apk")
                             }) {
-                                Text("Install apk (fallback)")
+                                Text("Save APK manually (fallback)")
                             }
 
                             Spacer(Modifier.height(16.dp))
                         }
 
-                        Text("Version 3x", style = MaterialTheme.typography.labelSmall)
+                        Text("Version 4", style = MaterialTheme.typography.labelSmall)
 
                     }
 
 
                 }
             }
+        }
+    }
+
+    private fun startInstallProcess() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            if (packageManager.canRequestPackageInstalls()) {
+                installapkFromCache()
+            } else {
+                val intent = Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES).apply {
+                    data = "package:$packageName".toUri()
+                }
+                startActivity(intent)
+            }
+        } else {
+            // Below Oreo, we just try to install. It might prompt user to enable "Unknown sources" globally.
+            installapkFromCache()
         }
     }
 
@@ -271,7 +290,7 @@ class MainActivity : ComponentActivity() {
                 }
 
                 withContext(Dispatchers.Main) {
-                    Toast.makeText(this@MainActivity, "Apk saved. Launching installer... (Install using zarchiver if this does not work)", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@MainActivity, "Apk saved. Launching installer...", Toast.LENGTH_SHORT).show()
                     val mime = "application/vnd.android.package-archive"
                     val installIntent = Intent(Intent.ACTION_VIEW).apply {
                         setDataAndType(uri, mime)
@@ -303,10 +322,9 @@ class MainActivity : ComponentActivity() {
                 flags = Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_ACTIVITY_NEW_TASK
             }
             startActivity(installIntent)
-
         } catch (e: Exception) {
             e.printStackTrace()
-            Toast.makeText(this, "Failed to install fallback: ${e.localizedMessage}", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Failed to install: ${e.localizedMessage}", Toast.LENGTH_LONG).show()
         }
     }
 
@@ -380,7 +398,11 @@ class MainActivity : ComponentActivity() {
             val obbFile = File(this.obbDir, secondaryObbName)
             if (!obbFile.exists()) {
                 runOnUiThread {
-                    Toast.makeText(this, "Game's OBB not found: ${obbFile.absolutePath}", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        this,
+                        "Game's OBB not found: ${obbFile.absolutePath}",
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
                 return false
             }
