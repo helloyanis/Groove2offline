@@ -57,8 +57,8 @@ Use my mod to play after the shutdown on Android! Play all the 4max expansion so
   - If you only want to play songs with complete offline support, and don't care about missions, ranking, and social features, click on `Set up for offline play`
   - If you want to use a third party server (or your own) that has support for missions, cloud saves, ranking, etc, click on `Set up with a third party server`. Then enter the URL of a third party server.
 
-  > [!TIP]
-  > As of the time I'm writing this, one public server is `https://gc2.aitsuki.org/`
+> [!TIP]
+> As of the time I'm writing this, one public server is `https://gc2.aitsuki.org/`
   
 - Click on the 1st button to save the APK file for the game. Allow unknown sources, and if needed click the button again to install the game.
  - Open the file in your phone's file browser, install the game and enjoy!
